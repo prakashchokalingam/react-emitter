@@ -44,7 +44,7 @@
           // Input Component
            var InputComponent = React.createClass({
              sendInput:function(e){
-               // this function sends value from the TodoList Component via ReactEmitter
+               // this function sends value to the TodoList Component via ReactEmitter
                 ReactEmitter.call("getInput")(e.target.value);
                 e.target.value="";
              },
