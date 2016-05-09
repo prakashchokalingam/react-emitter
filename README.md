@@ -30,7 +30,7 @@ EmitterFunction : The function to be invoke when the corresponding ReactEmitter 
           // Input Component
            var InputComponent = React.createClass({
              sendInput:function(e){
-               // this function sends value from the TodoList Component via ReactEmitter
+               // this function sends value to the TodoList Component via ReactEmitter
                 ReactEmitter.call("getInput")(e.target.value);
                 e.target.value="";
              },
@@ -72,7 +72,7 @@ EmitterFunction : The function to be invoke when the corresponding ReactEmitter 
           // rendering components
            ReactDOM.render(<InputComponent />,document.getElementById('TodoInput'));
            ReactDOM.render(<TodoList />,document.getElementById('TodoLists'));
-         
+
 ## Features :
 
           Light weight (12 lines unminified )
