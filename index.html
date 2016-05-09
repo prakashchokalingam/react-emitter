@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>ReactEmitter by Prakash Chokalingam</title>
+     <link rel="shortcut icon" href="https://facebook.github.io/react/favicon.ico">
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.2/react.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.2/react-dom.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+    <script type="text/javascript" src="js/ReactEmitter.js"></script>
+    <script type="text/babel" src="example/components.js"></script>
+  </head>
+  <body class="jumbotron" style="padding-top:0px">
+    <h1>React Emitter </h1>
+    <p>&nbsp;&nbsp;&nbsp;<b>A simple React Emitter using Window Objects to communicate between React Components.
+    </b></h1>
+   <h3>Usage : </h3>
+   <p>&nbsp;&nbsp;&nbsp;To create new Emitter : </p>
+   <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code> ReactEmitter.set( EmitterName , EmitterFunction )</code></p>
+   <p>
+     <ul>
+       <li>EmitterName : The name which is used to call while invoke.</li>
+       <li>EmitterFunction : The function to be invoke when the corresponding ReactEmitter called.</li>
+     </ul>
+   </p>
+   <p>&nbsp;&nbsp;&nbsp;To call an Emitter : </p>
+   <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>ReactEmitter.call( EmitterName )()</code></p>
+   <p>&nbsp;&nbsp;&nbsp;If the function has arguments,</P>
+     <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code> ReactEmitter.call( EmitterName )(...arguments)</code></p>
+   <p>&nbsp;&nbsp;&nbsp;To delete an Emitter : </p>
+   <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code> ReactEmitter.delete( EmitterName )</code></p>
+   <h3>Example : </h3>
+     <p>&nbsp;&nbsp;&nbsp;Consider there is two Independent React Components namely InputComponent,TodoList , And the TodoList component requires data from
+       InputComponent while there ReactEmitter acts as bridge of communication between these Components.</p>
+      <div class="row">
+        <div class="col-md-8">
+          <code><pre>
+          // Input Component
+           var InputComponent = React.createClass({
+             sendInput:function(e){
+               // this function sends value from the TodoList Component via ReactEmitter
+                ReactEmitter.call("getInput")(e.target.value);
+                e.target.value="";
+             },
+              render:function(){
+                return (
+                  &lt;input type="text" placeholder="Enter Todo's" onBlur={this.sendInput} />
+                );
+              }
+           });
+
+          //  todo list
+          var TodoList = React.createClass({
+            getInitialState : function(){
+              return {lists:[]};
+            },
+            componentDidMount : function(){
+              // setting an emitter
+              ReactEmitter.set("getInput",this.getInput)
+            },
+            getInput : function(inputValue){
+              // this function gets value from the InputComponent via ReactEmitter
+              this.state.lists.push(inputValue);
+              this.setState({
+                lists:this.state.lists
+              });
+            },
+            render: function(){
+              var lists = this.state.lists.map(function(list,key){
+                   return (
+                     &lt;li key={key}>{list}&lt;/li>
+                   );
+              });
+              return (
+                &lt;ul>{lists}&lt;/ul>
+              )
+            }
+          });
+
+          // rendering components
+           ReactDOM.render(<InputComponent />,document.getElementById('TodoInput'));
+           ReactDOM.render(<TodoList />,document.getElementById('TodoLists'));
+         </pre>
+</code>
+        </div>
+        <div class="col md-6">
+          <h3>output</h3>
+          <h5>Todo App using ReactEmitter</h5>
+          <div id="TodoInput"></div>
+          <div id="TodoLists"></div>
+        </div>
+      </div>
+        <h3>Features : </h3>
+         <ul>
+           <li>Light weight (12 lines unminified )</li>
+            <li>Easy to Implement</li>
+          </ul>
+
+<footer>
+  <center>created by <a href="http://facebook.com/prakashchokalingam">Prakash chokalingam</p></center>
+</footer>
+  </body>
+</html>
