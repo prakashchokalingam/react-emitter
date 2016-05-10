@@ -2,8 +2,7 @@
 // facebook.com/prakashchokalingam
 // To enable global react listner
 // ### Do Communications between React Components easily
-window.ReactEmitter = {};
-var ReactEmitter = {
+window.ReactEmitter = {
    set : function(EmitterName,EmitterFunction){
        window.ReactEmitter[EmitterName] = EmitterFunction ;
    },
